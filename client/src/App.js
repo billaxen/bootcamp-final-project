@@ -7,6 +7,10 @@ import Favorites from "./Favorites";
 import CreateRecipe from "./CreateRecipe";
 import EditRecipe from "./EditRecipe";
 import Footer from "./Footer";
+import ProfilePage from "./ProfilePage";
+import RecipeList from "./RecipeList";
+
+
 
 const App = () => {
   return (
@@ -19,7 +23,10 @@ const App = () => {
           <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/create-recipe" element={<CreateRecipe />} />
+          <Route path="/profile" element={<ProfilePage/>} />
           <Route path="/edit-recipe/:id" element={<EditRecipe />} />
+          <Route path="/recipe-list" element={<RecipeList />} />
+
         </Routes>
         <Footer/>
       </BrowserRouter>
