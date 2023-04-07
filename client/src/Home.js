@@ -1,25 +1,25 @@
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
-import styled from "styled-components";
-import React from "react";
-import Profile from "./Profile";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState } from "react";
 import RecipeList from "./RecipeList";
 
-
 const Home = () => {
-  const { isLoading, error } = useAuth0();
-  
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <div>
       <h1>Home</h1>
-      <RecipeList/>
-
-
+      <input
+        type="text"
+        placeholder="Search recipes..."
+        value={searchQuery}
+        onChange={handleSearchInputChange}
+      />
+      <RecipeList searchQuery={searchQuery} />
     </div>
   );
 };
-
 
 export default Home;

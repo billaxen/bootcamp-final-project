@@ -6,4 +6,4 @@ return (
 )
 };
 
-export default Favorites;
+export default Favorites

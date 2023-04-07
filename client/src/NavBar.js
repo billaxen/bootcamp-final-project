@@ -22,7 +22,7 @@ const NavBar = () => {
           <Link to="/favorites">Favorites</Link>
         </li>
         <li>
-          <Link to="/create-recipe">Create Recipe</Link>
+          <Link to="/add-recipe">Add Recipe</Link>
         </li>
         <li>
           <Link to="/profile">Profile</Link>

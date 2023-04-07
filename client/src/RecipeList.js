@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import RecipeCard from "./RecipeCard";
+import RecipeCard from "./RecipeDetails";
 
-const RecipeList = ({ recipes }) => {
+const RecipeList = ({ searchQuery }) => {
   const navigate = useNavigate();
   const [recipeData, setRecipeData] = useState([]);
+  
 
   useEffect(() => {
     fetch("/api/get-recipes")
@@ -16,15 +17,24 @@ const RecipeList = ({ recipes }) => {
       .catch((error) => console.error(error));
   }, []);
 
+
   const handleRecipeClick = (recipeId) => {
-    navigate(`/recipes/${recipeId}`);
+    navigate(`/recipe/${recipeId}`);
   };
+
+  const filteredRecipes = recipeData.filter(
+    (recipe) =>
+      recipe.name &&
+      searchQuery &&
+      recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
 
   return (
     <div>
       <h1>Recipes</h1>
       <RecipeListContainer>
-        {recipeData.map((recipe) => (
+        {filteredRecipes.map((recipe) => (
           <RecipeListItem
             key={recipe._id}
             onClick={() => handleRecipeClick(recipe._id)}

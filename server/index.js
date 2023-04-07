@@ -5,7 +5,9 @@ const express = require("express");
 const morgan = require("morgan");
 const port = 8888;
 
-const getRecipes = require("./handlers");
+const {getRecipes,
+  getRecipe} = require("./handlers");
+
 
 express()
   // Below are methods that are included in express(). We chain them for convenience.
@@ -17,15 +19,15 @@ express()
   .use(express.static("public"))
 
       //endpoints here 👇
-      .get("/api/get-recipes", (req, res, next) => {
-        console.log("endpoint console.log test in index.js"); // Log the request
-        getRecipes(req, res, next);
-      })
 
- .get("/test", (req,res) => {
-    res.status(200).json({itWorked: true})
-    })
+      .get("/api/get-recipes", getRecipes)
+      .get("/api/get-recipe/:recipeId", getRecipe)
+    
 
+      .get("/test", (req,res) => {
+        res.status(200).json({itWorked: true})
+        })
+ 
   // this is our catch all endpoint.
   .get("*", (req, res) => {
     res.status(404).json({
