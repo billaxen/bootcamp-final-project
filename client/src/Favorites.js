@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react"; // Don't forget to import the useAuth0 hook
+import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 const Favorites = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth0(); // Get isAuthenticated from the useAuth0 hook
+  const { user, isAuthenticated } = useAuth0();
   const [favoriteData, setFavoriteData] = useState([]);
 
   useEffect(() => {
-    fetch("/api/get-favorites")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("favorite data.data", data.data);
-        setFavoriteData(data.data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+    if (isAuthenticated) {
+      const fetchData = async () => {
+        const response = await fetch("/api/get-favorites");
+        const data = await response.json();
+        const userFavorites = data.data.filter((favorite) => favorite.userId === user.sub);
+        setFavoriteData(userFavorites);
+      };
+    
+      fetchData();
+    } else {
+      setFavoriteData([]);
+    }
+  }, [isAuthenticated, user]);
+  
 
   const handleRecipeClick = (recipeId) => {
-    navigate(`/recipe/${recipeId}`);
+    navigate(`/favrecipe/${recipeId}`);
   };
 
   if (!isAuthenticated) {
@@ -29,7 +35,7 @@ const Favorites = () => {
   return (
     <div>
       <h1>Favorites</h1>
-      {isAuthenticated && ( // Conditionally render based on isAuthenticated
+      {isAuthenticated && (
         <RecipeListContainer>
           {favoriteData.map((recipe) => (
             <RecipeListItem

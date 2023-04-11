@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const port = 8888;
 
 const {getRecipes,
-  getRecipe, upload, addRecipe, postFavorite, getFavorites, checkFavorite} = require("./handlers");
+  getRecipe, upload, addRecipe, postFavorite, getFavorites, checkFavorite, deleteFavorite} = require("./handlers");
 
 
 
@@ -27,6 +27,7 @@ express()
       .get("/api/check-favorite/:recipeId", checkFavorite)
       .post("/api/add-recipe", upload.single("image"), addRecipe)
       .post("/api/post-favorite", postFavorite)
+      .delete("/api/delete-favorite", deleteFavorite)
       
 
       .get("/test", (req,res) => {

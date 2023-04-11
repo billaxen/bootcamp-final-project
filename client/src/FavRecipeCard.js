@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const RecipeCard = () => {
+const FavRecipeCard = () => {
   const [recipe, setRecipe] = useState(null);
   const { recipeId } = useParams();
   const [isLiked, setIsLiked] = useState(false);
@@ -110,4 +110,4 @@ const ErrorMessage = styled.div`
 color: red;
 `
 
-export default RecipeCard;
+export default FavRecipeCard;

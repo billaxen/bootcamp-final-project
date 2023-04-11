@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import ProfilePage from "./ProfilePage";
 import RecipeList from "./RecipeList";
 import RecipeCard from "./RecipeCard";
+import FavRecipeCard from "./FavRecipeCard";
 
 
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/edit-recipe/:id" element={<EditRecipe />} />
           <Route path="/recipe-list" element={<RecipeList />} />
           <Route path="/recipe/:recipeId" element={<RecipeCard />} />
+          <Route path="/favrecipe/:recipeId" element={<FavRecipeCard />} />
 
         </Routes>
         <Footer/>

@@ -151,6 +151,34 @@ const checkFavorite = async (req, res) => {
   }
 };
 
+const deleteFavorite = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("FlavorFinderDb");
+  const { favoriteId } = req.params;
+  const { userId } = req.body;
+  
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB to delete favorite recipe");
+    const result = await db.collection("favorites").deleteOne({ _id: parseInt(favoriteId), userId: userId });
+    console.log("Favorite recipe deleted from the database:", result);
+
+    if (result.deletedCount === 1) {
+      console.log("Recipe removed from favorites");
+      res.status(200).json({ status: 200, message: "Recipe removed from favorites" });
+    } else {
+      console.log("Recipe not found in favorites");
+      res.status(404).json({ status: 404, message: "Recipe not found in favorites" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: 500, message: "Server error" });
+  } finally {
+    client.close();
+    console.log("Closed MongoDB connection");
+  }
+};
+
 
 
 
@@ -181,6 +209,7 @@ module.exports = {
   addRecipe,
   postFavorite,
   getFavorites,
-  checkFavorite
+  checkFavorite,
+  deleteFavorite
 
 };
