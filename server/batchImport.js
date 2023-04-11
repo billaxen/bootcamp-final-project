@@ -54,5 +54,4 @@ const initializeRecipes = async (dbName) => {
   console.log("disconnected!");
 };
 
-initializeRecipes("FlavorFinderDb");
-
+initializeRecipes("FlavorFinderDbBackUp");

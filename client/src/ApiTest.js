@@ -1,6 +1,19 @@
-// const request = require('request-promise');
+const request = require('request-promise');
 
-// const getRandomMeal = async () => {
+const getRandomMeal = async () => {
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '685406c8bcmsh141b78f1eda9944p17fc21jsn94f2bd874f03',
+            'X-RapidAPI-Host': 'tasty.p.rapidapi.com'
+        }
+    };
+    
+    fetch('https://tasty.p.rapidapi.com/recipes/auto-complete?prefix=chicken%20soup', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+}
 //   const options = {
 //     uri: 'https://www.themealdb.com/api/json/v1/1/random.php',
 //     headers: {

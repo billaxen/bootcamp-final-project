@@ -6,7 +6,8 @@ const morgan = require("morgan");
 const port = 8888;
 
 const {getRecipes,
-  getRecipe} = require("./handlers");
+  getRecipe, upload, addRecipe, postFavorite, getFavorites, checkFavorite} = require("./handlers");
+
 
 
 express()
@@ -22,7 +23,11 @@ express()
 
       .get("/api/get-recipes", getRecipes)
       .get("/api/get-recipe/:recipeId", getRecipe)
-    
+      .get("/api/get-favorites", getFavorites)
+      .get("/api/check-favorite/:recipeId", checkFavorite)
+      .post("/api/add-recipe", upload.single("image"), addRecipe)
+      .post("/api/post-favorite", postFavorite)
+      
 
       .get("/test", (req,res) => {
         res.status(200).json({itWorked: true})

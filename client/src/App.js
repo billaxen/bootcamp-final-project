@@ -8,7 +8,7 @@ import EditRecipe from "./EditRecipe";
 import Footer from "./Footer";
 import ProfilePage from "./ProfilePage";
 import RecipeList from "./RecipeList";
-import RecipeDetails from "./RecipeDetails";
+import RecipeCard from "./RecipeCard";
 
 
 
@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/profile" element={<ProfilePage/>} />
           <Route path="/edit-recipe/:id" element={<EditRecipe />} />
           <Route path="/recipe-list" element={<RecipeList />} />
-          <Route path="/recipe/:recipeId" element={<RecipeDetails />} />
+          <Route path="/recipe/:recipeId" element={<RecipeCard />} />
 
         </Routes>
         <Footer/>

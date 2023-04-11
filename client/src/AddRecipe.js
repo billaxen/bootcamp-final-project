@@ -29,29 +29,34 @@ const AddRecipe = () => {
     setRecipeInstructions(event.target.value);
   };
 
+  const { user } = useAuth0();
+  
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("name", recipeName);
-    formData.append("image", recipeImage);
-    formData.append("ingredients", recipeIngredients);
-    formData.append("category", recipeCategory);
-    formData.append("instructions", recipeInstructions);
-
-    try {
-      const response = await fetch("/api/add-recipe", {
-        method: "POST",
-        body: formData,
-      });
-      if (response.ok) {
-        // TODO: display a success message and clear the form
-      } else {
-        // TODO: display an error message
-      }
-    } catch (error) {
-      console.error(error);
+  event.preventDefault();
+  const formData = new FormData();
+  formData.append("name", recipeName);
+  formData.append("image", recipeImage);
+  formData.append("ingredients", recipeIngredients);
+  formData.append("category", recipeCategory);
+  formData.append("instructions", recipeInstructions);
+  
+  // add user ID to form data
+  formData.append("userId", user.sub);
+  
+  try {
+    const response = await fetch("/api/add-recipe", {
+      method: "POST",
+      body: formData,
+    });
+    if (response.ok) {
+      // TODO: display a success message and clear the form
+    } else {
+      // TODO: display an error message
     }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   if (!isAuthenticated) {
     return <div>Please log in to add a recipe.</div>;

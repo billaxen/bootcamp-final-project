@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import RecipeCard from "./RecipeDetails";
+import RecipeCard from "./RecipeCard";
 
 const RecipeList = ({ searchQuery }) => {
   const navigate = useNavigate();
   const [recipeData, setRecipeData] = useState([]);
-  
+  const [currentPage, setCurrentPage] = useState(1); // Add state for the current page
 
   useEffect(() => {
+    console.log("useeffect, fetch get-recipes")
     fetch("/api/get-recipes")
       .then((response) => response.json())
       .then((data) => {
@@ -24,10 +25,12 @@ const RecipeList = ({ searchQuery }) => {
 
   const filteredRecipes = recipeData.filter(
     (recipe) =>
-      recipe.name &&
-      searchQuery &&
-      recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+      !searchQuery ||
+      (recipe.name &&
+        searchQuery &&
+        recipe.name.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+  
   
 
   return (
