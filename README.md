@@ -12,7 +12,7 @@ Run npm install to install the dependencies.
 
 Create a .env file in the root directory with the following content:
 
-**"MONGO_URI= <your MongoDB URI>" **
+**MONGO_URI= "your MongoDB URI" **
   
 Run npm run init to initialize the database with sample recipes (optional).
   
