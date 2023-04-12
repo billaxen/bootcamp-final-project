@@ -33,7 +33,7 @@ const RecipeList = ({ searchQuery }) => {
   
 
   return (
-    <div>
+    <Container>
       <h1>Recipes</h1>
       <RecipeListContainer>
         {filteredRecipes.map((recipe) => (
@@ -47,7 +47,8 @@ const RecipeList = ({ searchQuery }) => {
           </RecipeListItem>
         ))}
       </RecipeListContainer>
-    </div>
+  </Container>
+
   );
 };
 
@@ -88,5 +89,9 @@ const RecipeListItem = styled.li`
     background-color: #d9d9d9;
   }
 `;
+
+const Container = styled.div`
+text-align: center;
+`
 
 export default RecipeList;

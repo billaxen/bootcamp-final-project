@@ -11,26 +11,27 @@ const NavBar = () => {
   return (
     <Wrapper>
       <Categories>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/profile">Profile</Link>
-        </li>
-        <li>
-          <Link to="/favorites">Favorites</Link>
-        </li>
-        <li>
-          <Link to="/add-recipe">Add Recipe</Link>
-        </li>
-        <li>
-          <Link to="/my-recipes">My Recipes</Link>
-        </li>
+        <NavItem>
+          <NavLink to="/">Home</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/favorites">Favorites</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/add-recipe">Add Recipe</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/my-recipes">My Recipes</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/profile">Profile</NavLink>
+        </NavItem>
       </Categories>
       <AuthButtons>
         {isAuthenticated && (
           <>
-            <UserName>Welcome {user.name}</UserName>
+            <UserImage src={user.picture} alt={user.name} />
+            <UserName>{user.name}</UserName>
             <LogoutButton />
           </>
         )}
@@ -39,7 +40,6 @@ const NavBar = () => {
     </Wrapper>
   );
 };
-
 
 const Wrapper = styled.nav`
   display: flex;
@@ -56,26 +56,30 @@ const Wrapper = styled.nav`
 
 const Categories = styled.ul`
   display: flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
   list-style: none;
+  padding: 0;
+  margin-right: 10px;
+`;
 
-  li {
-    margin-right: 1.5rem;
+const NavItem = styled.li`
+  margin-right: 1.5rem;
+  font-size: 1.2rem;
 
-    &:last-child {
-      margin-right: 0;
-    }
+  &:last-child {
+    margin-right: 0;
+  }
+`;
 
-    a {
-      color: #333;
-      text-decoration: none;
-      font-size: 1.2rem;
-      transition: color 0.3s ease;
+const NavLink = styled(Link)`
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
 
-      &:hover {
-        color: white;
-      }
-    }
+  &:hover {
+    color: white;
+    transform: scaleX(1);
+
   }
 `;
 
@@ -86,6 +90,16 @@ const AuthButtons = styled.div`
 
 const UserName = styled.span`
   margin-right: 1rem;
+  font-size: 1rem;
+  color: #333;
+`;
+
+const UserImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  border: 2px solid white;
 `;
 
 export default NavBar;

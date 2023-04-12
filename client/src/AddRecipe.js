@@ -78,7 +78,7 @@ const AddRecipe = () => {
 
   return (
     <Wrapper>
-      <h1>Add Recipe</h1>
+      <Title>Add Recipe</Title>
       {showSuccessMessage && <SuccessMessage>Your recipe has been added!</SuccessMessage>}
       <Form onSubmit={handleSubmit}>
         <FormGroup>
@@ -99,7 +99,7 @@ const AddRecipe = () => {
         <Input type="text" value={recipeCategory} onChange={handleRecipeCategoryChange} required />
       </FormGroup>
       <FormGroup>
-        <Label>Instructions:</Label>
+        <Label>Directions:</Label>
         <TextArea value={recipeInstructions} onChange={handleRecipeInstructionsChange} required />
       </FormGroup>
       <SubmitButton type="submit">Add Recipe</SubmitButton>
@@ -150,7 +150,7 @@ border: 1px solid #ccc;
 width: 100%;`
 
 const SubmitButton = styled.button`
-background-color: #4285f4;
+background-color: orange;
 color: #fff;
 font-size: 1.2rem;
 padding: 0.5rem 1rem;
@@ -168,9 +168,11 @@ background-color: #2a5ca8;
 }
 `;
 
+const Title= styled.h1`
+color: orange;`
 const SuccessMessage = styled.div `
-background-color: #c8e6c9; 
-color: #2e7d32; 
+background-color: orange; 
+color: white; 
 font-size: 1.2rem; 
 padding: 0.5rem 1rem; 
 border-radius: 0.25rem; 

@@ -41,7 +41,10 @@ const MyRecipes = () => {
   }
 
   return (
-    <Container>
+    <Wrapper>
+        <Title>My recipes</Title>
+        <Container>
+
       {recipes.map((recipe) => (
         <RecipeContainer key={recipe._id} onClick={() => handleRecipeClick(recipe._id)}>
           <RecipeImage src={`/images/${recipe.image}`} alt={recipe.name} />
@@ -53,6 +56,7 @@ const MyRecipes = () => {
         </RecipeContainer>
       ))}
     </Container>
+    </Wrapper>
   );
 };
 
@@ -90,14 +94,22 @@ const ButtonContainer = styled.div`
 
 const DeleteButton = styled.button`
 /* position: absolute; */
-top: 100px;
   padding: 0.2rem;
   border: none;
   border-radius: 5px;
-  background-color: #ff6961;
+  background-color: lightgray;
   color: #fff;
   font-weight: bold;
 
 `;
+
+const Title =  styled.h1`
+color: orange;'
+`
+
+const Wrapper = styled.div`
+text-align: center
+`
+
 
 export default MyRecipes;

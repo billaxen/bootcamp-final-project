@@ -25,7 +25,7 @@ const FavRecipeCard = () => {
 
   const handleLikeClick = () => {
     if (!isAuthenticated) {
-      setError("Please sign in to add this recipe to your favorites");
+      setError("Please Log in to add this recipe to your favorites");
       return;
     }
   
@@ -92,7 +92,7 @@ const FavRecipeCard = () => {
         ))}
       </ul>
       <ol>
-        <h2>Instructions</h2>
+        <h2>Directions</h2>
         {instructionsArray.map((instruction, index) => (
           <li key={index}>{instruction.trim()}</li>
         ))}

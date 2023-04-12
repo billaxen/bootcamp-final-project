@@ -75,44 +75,80 @@ const MyRecipeCard = () => {
     .map((ingredient) => ingredient.trim())
     .filter((ingredient) => ingredient !== "");
   
-  return (
-    <Container>
-      <h1>{recipe.name}</h1>
-      <h2>{recipe.category}</h2>
-      <RecipeImage src={`/images/${recipe.image}`}alt={recipe.name} />
-
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      <ul>
-        <h2>Ingredients</h2>
-        {filteredIngredients.map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
-        ))}
-      </ul>
-      <ol>
-        <h2>Instructions</h2>
-        {instructionsArray.map((instruction, index) => (
-          <li key={index}>{instruction.trim()}</li>
-        ))}
-      </ol>
-    </Container>
-  );
+    return (
+        <Container>
+          <Name>
+            <h1>{recipe.name}</h1>
+            <h2>{recipe.category}</h2>
+          </Name>
+          <Card>
+            <RecipeImage src={`/images/${recipe.image}`} alt={recipe.name} />
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <Details>
+              <h2>Ingredients</h2>
+              <ul>
+                {filteredIngredients.map((ingredient, index) => (
+                  <li key={index}>{ingredient}</li>
+                ))}
+              </ul>
+              <h2>Directions</h2>
+              <ol>
+                {instructionsArray.map((instruction, index) => (
+                  <li key={index}>{instruction.trim()}</li>
+                ))}
+              </ol>
+            </Details>
+          </Card>
+        </Container>
+      );
+      
         }  
-
-
-const RecipeImage = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 5px 5px 0 0;
-`;
 
 
 const ErrorMessage = styled.div`
 color: red;
 `
 
-const Container = styled.div`
-max-width: 30%;
-margin: 0 auto;
-background: fea600`
+const Container= styled.div`
+display: flex;
+flex-direction: column;
+max-width: 50%;
+margin: 10px auto;
+padding: 10px;
+
+ `
+
+ const Card = styled.div`
+ padding: 10px;
+ border-radius: 15px;
+ background: white;
+ border: 5px solid orange;
+`
+
+const LikeButton = styled.button`
+  background-color: ${(props) => (props.isLiked ? "orange" : "white")};
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  max-width: 100px;
+`;
+
+const Details = styled.div`
+margin-top: 10px;
+border-radius: 10px;
+`
+
+const Name =  styled.div`
+text-align: center;
+`
+
+const RecipeImage = styled.img`
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+`;
 
 export default MyRecipeCard;

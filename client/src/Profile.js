@@ -8,10 +8,8 @@ const Profile = () => {
        isAuthenticated && (
         <Column>
             {user?.picture && <Image src={user.picture} alt={user?.name}/>}
-            <h2>{user?.name}</h2>
-            <ul>
-                {Object.keys(user).map((objKey, i) => <li key={i}>{objKey}:{user[objKey]}</li>)}
-            </ul>
+            <h2>{user?.name} - @{user.nickname}</h2>
+            <p>{user.email}</p>
 
         </Column>
        )

@@ -25,7 +25,7 @@ const RecipeCard = () => {
 
   const handleLikeClick = () => {
     if (!isAuthenticated) {
-      setError("Please sign in to add this recipe to your favorites");
+      setError("Please Log in to add this recipe to your favorites");
       return;
     }
   
@@ -71,14 +71,19 @@ const RecipeCard = () => {
   const filteredIngredients = recipe.ingredients.filter((ingredient) => ingredient && ingredient.trim());
 
   return (
-    <div>
+    <Container>
+        
+         <Name>
       <h1>{recipe.name}</h1>
       <h2>{recipe.category}</h2>
-      <img src={recipe.image} alt={recipe.name} />
+      </Name>
+      <Card>
+      <RecipeImage src={recipe.image} alt={recipe.name} />
       <LikeButton onClick={handleLikeClick} isLiked={isLiked}>
         {isLiked ? "Liked" : "Like"}
       </LikeButton>
       {error && <ErrorMessage>{error}</ErrorMessage>}
+      <Details>
       <ul>
         <h2>Ingredients</h2>
         {filteredIngredients.map((ingredient, index) => (
@@ -86,18 +91,20 @@ const RecipeCard = () => {
         ))}
       </ul>
       <ol>
-        <h2>Instructions</h2>
+        <h2>Directions</h2>
         {instructionsArray.map((instruction, index) => (
           <li key={index}>{instruction.trim()}</li>
         ))}
-      </ol>
-    </div>
+        </ol>
+      </Details>
+      </Card>
+    </Container>
   );
   
         }
 
 const LikeButton = styled.button`
-  background-color: ${(props) => (props.isLiked ? "red" : "green")};
+  background-color: ${(props) => (props.isLiked ? "green" : "orange")};
   color: white;
   border: none;
   border-radius: 5px;
@@ -109,5 +116,35 @@ const LikeButton = styled.button`
 const ErrorMessage = styled.div`
 color: red;
 `
+const Container= styled.div`
+display: flex;
+flex-direction: column;
+max-width: 50%;
+margin: 10px auto;
+padding: 10px;
+`
+
+ const Card = styled.div`
+ padding: 10px;
+ border-radius: 15px;
+ background: white;
+ border: 5px solid orange;
+`
+
+
+const Details = styled.div`
+margin-top: 10px;
+border-radius: 10px;
+`
+
+const Name =  styled.div`
+text-align: center;
+`
+
+const RecipeImage = styled.img`
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+`;
 
 export default RecipeCard;

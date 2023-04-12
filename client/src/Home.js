@@ -13,13 +13,19 @@ const Home = () => {
 
   return (
     <Container>
+      
       <Wrapper>
+        <LogoWrapper>
+        <Logo src="/images/Logo3.png" alt="logo" />
       <SearchInput
         type="text"
         placeholder="Search recipes..."
         value={searchQuery}
         onChange={handleSearchInputChange}
       />
+   
+        </LogoWrapper>
+     
       <RecipeList searchQuery={searchQuery} />
     </Wrapper>
     </Container>
@@ -28,7 +34,19 @@ const Home = () => {
 };
 
 const Container= styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
 `
+
+const LogoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+`;
+
 
 const Wrapper = styled.div`
   margin-top: 2%;
@@ -44,5 +62,11 @@ max-width: 600px;
   width: 100%;
   margin-bottom: 1rem;
 `;
+
+const Logo = styled.img`
+margin: 0 auto;
+`
+
+
 
 export default Home;

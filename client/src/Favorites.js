@@ -48,7 +48,7 @@ const Favorites = () => {
   }
 
   return (
-    <div>
+    <Container>
       <h1>Favorites</h1>
       {isAuthenticated && (
         <RecipeListContainer>
@@ -64,9 +64,16 @@ const Favorites = () => {
           ))}
         </RecipeListContainer>
       )}
-    </div>
+    </Container>
   );
 };
+
+
+const Container = styled.div`
+width:90%;
+margin: auto;
+text-align: center;
+color: orange;`
 
 const RecipeImage = styled.img`
   width: 100%;
