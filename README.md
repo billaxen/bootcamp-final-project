@@ -3,7 +3,7 @@
 FlavorFinder
 FlavorFinder is a web application that allows users to search and view recipes, as well as add their own recipes to the database. Users can also save recipes to their favorites list and view their added recipes.
 
-Installation
+## Installation
 To use the application, follow these steps:
 
 Clone the repository to your local machine.
@@ -15,7 +15,7 @@ MONGO_URI=<your MongoDB URI>
 Run npm run init to initialize the database with sample recipes (optional).
 Run npm run dev to start the development server.
 
-Usage
+## Usage
 Once the server is running, you can access the following endpoints:
 
 /api/get-recipes: Retrieves all recipes from the database.
@@ -30,7 +30,7 @@ Once the server is running, you can access the following endpoints:
 /api/delete-recipe/:recipeId: Deletes a user-added recipe from the database.
 The application also includes a basic front-end UI for searching and viewing recipes.
 
-Technologies Used
+## Technologies Used
 The following technologies were used to create this application:
 
 Node.js
