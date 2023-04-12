@@ -1,6 +1,7 @@
 // const { v4: uuidv4 } = require("uuid");
 const { MongoClient } = require("mongodb");
 const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 
 const { MONGO_URI } = process.env;
@@ -80,6 +81,7 @@ const addRecipe = async (req, res) => {
     await client.connect();
     const collection = db.collection("addedRecipes");
     const result = await collection.insertOne({
+      _id: uuidv4(),
       name: req.body.name,
       image: req.file.filename,
       ingredients: req.body.ingredients,
@@ -87,10 +89,11 @@ const addRecipe = async (req, res) => {
       instructions: req.body.instructions,
       userId: req.body.userId,
     });
-    if (result.insertedCount === 1) {
+    console.log(result)
+    if (result.acknowledged === true) {
       res.status(200).json({ status: 200, message: "Recipe added successfully" });
     } else {
-      res.status(500).json({ status: 500, message: "Failed to add recipe" });
+      res.status(400).json({ status: 400, message: "Failed to add recipe" });
     }
   } catch (err) {
     console.error(err);
@@ -151,34 +154,6 @@ const checkFavorite = async (req, res) => {
   }
 };
 
-const deleteFavorite = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
-  const db = client.db("FlavorFinderDb");
-  const { favoriteId } = req.params;
-  const { userId } = req.body;
-  
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB to delete favorite recipe");
-    const result = await db.collection("favorites").deleteOne({ _id: parseInt(favoriteId), userId: userId });
-    console.log("Favorite recipe deleted from the database:", result);
-
-    if (result.deletedCount === 1) {
-      console.log("Recipe removed from favorites");
-      res.status(200).json({ status: 200, message: "Recipe removed from favorites" });
-    } else {
-      console.log("Recipe not found in favorites");
-      res.status(404).json({ status: 404, message: "Recipe not found in favorites" });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ status: 500, message: "Server error" });
-  } finally {
-    client.close();
-    console.log("Closed MongoDB connection");
-  }
-};
-
 
 
 
@@ -200,6 +175,107 @@ const getFavorites = async (req, res) => {
   }
 };
 
+const getMyRecipes = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("FlavorFinderDb");
+  const { userId } = req.query;
+  try {
+    await client.connect();
+    const recipes = await db
+      .collection("addedRecipes")
+      .find({ userId: userId })
+      .toArray();
+    if (recipes) {
+      res.status(200).json({ status: 200, data: recipes, message: "Success" });
+    } else {
+      res
+        .status(404)
+        .json({
+          status: 404,
+          data: null,
+          message:
+            "Failed to retrieve recipes data. Please contact the system administrator or try again later.",
+        });
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.close();
+  }
+};
+
+const getAddedRecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("FlavorFinderDb");
+  const { recipeId } = req.params;
+  try {
+    await client.connect();
+    const recipe = await db.collection("addedRecipes").findOne({ _id:recipeId });
+
+    if (recipe) {
+      res.status(200).json({ status: 200, data: recipe, message: "Success" });
+    } else {
+      res.status(404).json({ status: 404, data: null, message: "Recipe not found" });
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.close();
+  }
+};
+
+const deleteFavorite = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("FlavorFinderDb");
+  const { recipeId, userId } = req.params;
+
+  try {
+    await client.connect();
+    const favorite = await db.collection("favorites").findOne({ _id: recipeId});
+    if (!favorite) {
+      console.log("error1")
+      return res.status(404).json({ status: 404, message: "Recipe not found in favorites" });
+    }
+    if (favorite.userId !== userId) {
+      return res.status(401).json({ status: 401, message: "Unauthorized" });
+    }
+    const result = await db.collection("favorites").deleteOne({ _id: recipeId });
+
+    if (result.deletedCount === 1) {
+      console.log("error2")
+      res.status(200).json({ status: 200, message: "Recipe removed from favorites" });
+    } else {
+      res.status(404).json({ status: 40, message: "Recipe not found in favorites" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: 500, message: "Server error" });
+  } finally {
+    client.close();
+  }
+};
+
+
+const deleteRecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("FlavorFinderDb");
+  const { recipeId } = req.params;
+  try {
+    await client.connect();
+    const result = await db.collection("addedRecipes").deleteOne({ _id: recipeId });
+    if (result.deletedCount === 1) {
+      res.status(200).json({ status: 200, message: "Recipe deleted successfully" });
+    } else {
+      res.status(404).json({ status: 404, message: "Recipe not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: 500, message: "Server error" });
+  } finally {
+    client.close();
+  }
+};
+
 
 
 module.exports = {
@@ -210,6 +286,8 @@ module.exports = {
   postFavorite,
   getFavorites,
   checkFavorite,
-  deleteFavorite
-
+  getMyRecipes,
+  getAddedRecipe,
+  deleteFavorite,
+  deleteRecipe
 };

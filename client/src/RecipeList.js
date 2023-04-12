@@ -9,7 +9,6 @@ const RecipeList = ({ searchQuery }) => {
   const [currentPage, setCurrentPage] = useState(1); // Add state for the current page
 
   useEffect(() => {
-    console.log("useeffect, fetch get-recipes")
     fetch("/api/get-recipes")
       .then((response) => response.json())
       .then((data) => {
@@ -73,8 +72,10 @@ const RecipeListContainer = styled.ul`
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.7rem;
+  margin-left: 1%;
+  margin-right: 1%;
 `;
 
 const RecipeListItem = styled.li`

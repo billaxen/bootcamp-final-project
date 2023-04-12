@@ -10,6 +10,7 @@ import ProfilePage from "./ProfilePage";
 import RecipeList from "./RecipeList";
 import RecipeCard from "./RecipeCard";
 import FavRecipeCard from "./FavRecipeCard";
+import MyRecipeCard from "./MyRecipeCard";
 
 
 
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/recipe-list" element={<RecipeList />} />
           <Route path="/recipe/:recipeId" element={<RecipeCard />} />
           <Route path="/favrecipe/:recipeId" element={<FavRecipeCard />} />
+          <Route path="/myrecipe/:recipeId" element={<MyRecipeCard />} />
 
         </Routes>
         <Footer/>

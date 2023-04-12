@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const FavRecipeCard = () => {
+const MyRecipeCard = () => {
   const [recipe, setRecipe] = useState(null);
   const { recipeId } = useParams();
   const [isLiked, setIsLiked] = useState(false);
@@ -11,9 +11,11 @@ const FavRecipeCard = () => {
   const { user, isAuthenticated } = useAuth0();
 
   useEffect(() => {
-    fetch(`/api/get-recipe/${recipeId}`)
+    fetch(`/api/get-added-recipe/${recipeId}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log("data", data)
+        console.log("data.data", data.data)
         if (data && data.data) {
           setRecipe(data.data);
         } else {
@@ -65,30 +67,25 @@ const FavRecipeCard = () => {
   if (!recipe) {
     return <div>Loading...</div>;
   }
-
+  
   const instructionsArray = recipe.instructions.split(".");
-
-  const filteredIngredients = recipe.ingredients.filter((ingredient) => ingredient && ingredient.trim());
-
+  
+  const filteredIngredients = recipe.ingredients
+    .split(",")
+    .map((ingredient) => ingredient.trim())
+    .filter((ingredient) => ingredient !== "");
+  
   return (
     <Container>
-        
-         <Name>
       <h1>{recipe.name}</h1>
       <h2>{recipe.category}</h2>
-      </Name>
-      <Card>
-      <RecipeImage src={recipe.image} alt={recipe.name} />
-     
-{/*       
-      <LikeButton onClick={handleLikeClick} isLiked={isLiked}>
-        {isLiked ? "Liked" : "Like"}
-      </LikeButton> */}
-      <Details>
+      <RecipeImage src={`/images/${recipe.image}`}alt={recipe.name} />
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <ul>
         <h2>Ingredients</h2>
         {filteredIngredients.map((ingredient, index) => (
-          <li key={index}>{ingredient.trim()}</li>
+          <li key={index}>{ingredient}</li>
         ))}
       </ul>
       <ol>
@@ -97,53 +94,25 @@ const FavRecipeCard = () => {
           <li key={index}>{instruction.trim()}</li>
         ))}
       </ol>
-      </Details>
-      </Card>
     </Container>
   );
-  
-        }
+        }  
 
-const Container= styled.div`
-display: flex;
-flex-direction: column;
-max-width: 50%;
-margin: 10px auto;
-padding: 10px;
-
- `
-
- const Card = styled.div`
- padding: 10px;
- border-radius: 15px;
- background: white;
- border: 5px solid orange;
-`
-
-const LikeButton = styled.button`
-  background-color: ${(props) => (props.isLiked ? "red" : "green")};
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  max-width: 100px;
-`;
-
-const Details = styled.div`
-margin-top: 10px;
-border-radius: 10px;
-`
-
-const Name =  styled.div`
-text-align: center;
-`
 
 const RecipeImage = styled.img`
   width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 5px 5px 0 0;
 `;
 
-export default FavRecipeCard;
+
+const ErrorMessage = styled.div`
+color: red;
+`
+
+const Container = styled.div`
+max-width: 30%;
+margin: 0 auto;
+background: fea600`
+
+export default MyRecipeCard;

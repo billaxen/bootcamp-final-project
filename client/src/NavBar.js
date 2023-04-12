@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
-import ProfilePage from "./ProfilePage";
+import { Link } from "react-router-dom";
+import LogoutButton from "./LogoutButton";
+import LoginButton from "./LoginButton";
 
 const NavBar = () => {
   const { isAuthenticated, user } = useAuth0();
@@ -16,7 +15,7 @@ const NavBar = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/my-recipes">My Recipes</Link>
+          <Link to="/profile">Profile</Link>
         </li>
         <li>
           <Link to="/favorites">Favorites</Link>
@@ -25,7 +24,7 @@ const NavBar = () => {
           <Link to="/add-recipe">Add Recipe</Link>
         </li>
         <li>
-          <Link to="/profile">Profile</Link>
+          <Link to="/my-recipes">My Recipes</Link>
         </li>
       </Categories>
       <AuthButtons>
@@ -41,33 +40,52 @@ const NavBar = () => {
   );
 };
 
-const Wrapper = styled.div`
-  height: 8%;
-  background-color: orange;
-  color: #fff;
+
+const Wrapper = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  background-color: #fea600;
+  padding: 0.5rem;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
 `;
 
-const Categories = styled.div`
+const Categories = styled.ul`
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
+  list-style: none;
+
+  li {
+    margin-right: 1.5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
 `;
 
 const AuthButtons = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
   align-items: center;
 `;
 
-const UserName = styled.p`
+const UserName = styled.span`
   margin-right: 1rem;
-  color: black;
-  
 `;
 
 export default NavBar;

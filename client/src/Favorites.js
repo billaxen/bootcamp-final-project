@@ -28,6 +28,21 @@ const Favorites = () => {
     navigate(`/favrecipe/${recipeId}`);
   };
 
+  const handleRemoveClick = async (recipeId, userId) => {
+    console.log("handleRemoveClick")
+    const response = await fetch(`/api/delete-favorite/${recipeId}/${userId}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      const updatedFavorites = favoriteData.filter(
+        (favorite) => favorite._id !== recipeId
+      );
+      setFavoriteData(updatedFavorites);
+    } else {
+      console.log("Failed to remove recipe from favorites");
+    }
+  };
+
   if (!isAuthenticated) {
     return <div>Please log in to see your favorite recipes</div>;
   }
@@ -38,12 +53,12 @@ const Favorites = () => {
       {isAuthenticated && (
         <RecipeListContainer>
           {favoriteData.map((recipe) => (
-            <RecipeListItem
-              key={recipe._id}
-              onClick={() => handleRecipeClick(recipe._id)}
-            >
-              <RecipeImage src={recipe.image} alt={recipe.name} />
-              <RecipeName>{recipe.name}</RecipeName>
+            <RecipeListItem key={recipe._id}>
+              <RemoveButton onClick={() => handleRemoveClick(recipe._id, user.sub)}>
+                X
+              </RemoveButton>
+              <RecipeImage src={recipe.image} alt={recipe.name} onClick={() => handleRecipeClick(recipe._id)} />
+              <RecipeName onClick={() => handleRecipeClick(recipe._id)}>{recipe.name}</RecipeName>
               <RecipeCategory>{recipe.category}</RecipeCategory>
             </RecipeListItem>
           ))}
@@ -57,11 +72,13 @@ const RecipeImage = styled.img`
   width: 100%;
   height: auto;
   border-radius: 5px 5px 0 0;
+  cursor: pointer;
 `;
 
 const RecipeName = styled.h2`
   font-size: 1.2rem;
   margin: 0.5rem 0;
+  cursor: pointer;
 `;
 
 const RecipeCategory = styled.p`
@@ -69,6 +86,7 @@ const RecipeCategory = styled.p`
   color: #777;
   margin-bottom: 0.5rem;
 `;
+
 const RecipeListContainer = styled.ul`
   list-style: none;
   padding: 0;
@@ -76,6 +94,8 @@ const RecipeListContainer = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
+  margin-left: 1%;
+  margin-right: 1%;
 `;
 
 const RecipeListItem = styled.li`
@@ -83,10 +103,21 @@ const RecipeListItem = styled.li`
   border-radius: 5px;
   text-align: center;
   font-size: 1.5rem;
-  cursor: pointer;
-  &:hover {
-    background-color: #d9d9d9;
-  }
+  position: relative;
 `;
 
-export default Favorites;
+const RemoveButton = styled.button`
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px 0 0 0;
+  font-size: 0.8rem;
+  padding: 0;
+  padding: 5px;
+`
+
+export default Favorites

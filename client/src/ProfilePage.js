@@ -13,9 +13,8 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <h1>Home</h1>
       <Column>
-      <h1>Profile Page</h1>
+      <h1>Profile</h1>
       {error && <p>Authentication Error</p>}
       {!error && isLoading && <p>Loading...</p>}
       {!error && !isLoading && (
